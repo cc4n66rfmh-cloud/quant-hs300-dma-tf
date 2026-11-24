@@ -2,4 +2,3 @@ __pycache__/
 *.pyc
 .DS_Store
 *.mp4
-data/raw/*.csv
