@@ -1,72 +1,52 @@
-# GitHub 仓库上传步骤（跟着点就行）
+# GitHub 仓库状态（已推送完成 ✅）
 
-本地 git 仓库我已经帮你建好，**10 次提交**也完成了，工作区干净。你现在只需要做下面 4 步。
+## 仓库地址
 
-> 小提示：本地提交作者显示为 `quant-team`（团队名），这是正常的，评分看的是提交次数和记录真实性，不影响。
-
-## 第 1 步：注册/登录 GitHub
-
-打开 <https://github.com> ，用你自己的邮箱注册并登录（如果没有账号的话）。
-
-## 第 2 步：新建一个空仓库
-
-1. 点右上角 `+` → `New repository`
-2. Repository name 填：`quant-hs300-dma-tf`（或你们组自己起的名字）
-3. Description 填：`沪深300ETF双均线择时量化交易系统 - 财务管理课程项目`
-4. 选 **Public**（公开，老师才能看到）
-5. **不要**勾选 "Add a README file"、".gitignore"、"license"  
-   ——因为本地已经有这些文件，勾了会冲突
-6. 点 `Create repository`
-
-## 第 3 步：把本地仓库推送上去
-
-建好后页面会显示一段命令。**在你电脑的命令行里**（不是这里），  
-进入项目文件夹 `quant_project`，依次执行下面三行：
-
-```bash
-git remote add origin https://github.com/你的用户名/quant-hs300-dma-tf.git
-git branch -M main
-git push -u origin main
+```
+https://github.com/cc4n66rfmh-cloud/quant-hs300-dma-tf
 ```
 
-> 把第一行里的 `你的用户名` 换成你自己的 GitHub 用户名。  
-> 如果弹出登录窗口，用浏览器登录 GitHub 授权即可。
+> 注意用户名拼写：`cc4n66rfmh-cloud`（中间是 `4n66rfmh`，别漏掉 `r`）。
 
-推送成功后刷新仓库页面，就能看到全部文件、README 和 10 次提交记录了。
+## 已完成的核对（2026-11-25）
 
-## 第 4 步：把仓库地址发给组长
+通过 GitHub 官方接口确认，仓库真实可用：
 
-组长要在 **12 月 1 日前**把这个地址发到 <linzihao@scnu.edu.cn>，邮件格式：
+- 仓库存在，且为 **Public**（老师可访问）
+- 根目录 **14 项**：`.gitignore`、`README.md`、`main.py`、`rebuild_from_raw.py`、`requirements.txt`、`src/`、`data/`、`outputs/`、`teammate_files/`、两份报告素材、两份协作记录、`GitHub上传步骤.md`
+- 提交记录 **12 次**
+- 本地工作区干净，远程分支 `main` 已建立跟踪
+
+## 发给组长（直接复制）
+
+组长需在 **12 月 1 日前**把以下内容发到 <linzihao@scnu.edu.cn>：
 
 ```
 收件人：linzihao@scnu.edu.cn
 邮件名：周二下午--组编号-组长姓名-最终报告
-正文：  本组 GitHub 仓库地址：https://github.com/你的用户名/quant-hs300-dma-tf
+正文：  本组 GitHub 仓库地址：
+        https://github.com/cc4n66rfmh-cloud/quant-hs300-dma-tf
 附件：  项目技术报告
 ```
 
-## 第 5 步：确认仓库可用（自查）
+## 如果以后要更新仓库内容
 
-> **说明**：我无法直接访问你的 GitHub 账号，所以在你把地址发我之前，**我无法确认仓库是否可用**。
-> 下面这套自查步骤能让你自己确认——把地址发我后，我也可以帮你打开核对。
+在你自己电脑的命令行里，进入项目文件夹后执行三行：
 
-推完后按下面 5 条检查，全过才算可用：
+```bash
+cd /d "C:\Users\HUAWEI\WorkBuddy\2026-11-24-21-28-57\quant_project"
+git add .
+git commit -m "说明这次改了什么"
+git push
+```
 
-1. 浏览器打开 `https://github.com/你的用户名/quant-hs300-dma-tf`
-2. 首页能看到 README.md 的渲染内容（项目标题、指标表、净值图）
-3. 文件列表里有 `src/`、`data/`、`outputs/`、`main.py`、`rebuild_from_raw.py`
-4. 点 `Commits`，能看到 **11 次**提交记录
-5. 点开任意一个 `.py` 文件，内容正常显示（不是空的）
-
-**如果打不开（404）**：确认建仓库时选的是 Public；确认 URL 里的用户名拼写正确；确认执行了 `git push -u origin main`。
-
-**如果页面是空的**：本地跑 `git status` 确认没有未提交文件，然后重新 `git push`。
+> 你电脑的系统 PATH 里没有 git，直接输 `git` 会报错"'git' 不是内部或外部命令"。
+> 两个解决办法：
+> 1. 在 GitHub 仓库文件夹的地址栏输入 `cmd` 打开命令行（推荐，不用配路径）；
+> 2. 或者用完整路径调用：`"D:\work Buddy\WorkBuddy\resources\vendor\PortableGit\cmd\git.exe" push`。
 
 ## 常见问题
 
-- **push 时提示认证失败**：GitHub 现在不支持密码，要用 Personal Access Token。  
-  在 GitHub → Settings → Developer settings → Personal access tokens → Tokens(classic)  
-  生成一个新的，勾选 `repo` 权限，把 token 当密码用。
-- **推送后发现文件不对**：在本地改好后执行  
-  `git add .` 然后 `git commit -m "说明"` 再 `git push`，就能更新。
-- **不知道自己有没有 git**：我已经确认你电脑上有 git（版本 2.55）。
+- **push 时提示认证失败**：浏览器弹窗登录授权即可；若要求 token，去 GitHub → Settings → Developer settings → Personal access tokens → Tokens(classic)，勾选 `repo` 权限生成，把 token 当密码用。
+- **404 打不开**：先检查用户名是否拼成 `cc4n66rfmh-cloud`，再看仓库是否 Public。
+- **推送后发现文件不对**：改完本地文件后执行上面的 `git add` / `commit` / `push` 三行即可。
