@@ -6,7 +6,7 @@
 
 ## 第 1 步：注册/登录 GitHub
 
-打开 https://github.com ，用你自己的邮箱注册并登录（如果没有账号的话）。
+打开 <https://github.com> ，用你自己的邮箱注册并登录（如果没有账号的话）。
 
 ## 第 2 步：新建一个空仓库
 
@@ -14,13 +14,13 @@
 2. Repository name 填：`quant-hs300-dma-tf`（或你们组自己起的名字）
 3. Description 填：`沪深300ETF双均线择时量化交易系统 - 财务管理课程项目`
 4. 选 **Public**（公开，老师才能看到）
-5. **不要**勾选 "Add a README file"、".gitignore"、"license"
+5. **不要**勾选 "Add a README file"、".gitignore"、"license"  
    ——因为本地已经有这些文件，勾了会冲突
 6. 点 `Create repository`
 
 ## 第 3 步：把本地仓库推送上去
 
-建好后页面会显示一段命令。**在你电脑的命令行里**（不是这里），
+建好后页面会显示一段命令。**在你电脑的命令行里**（不是这里），  
 进入项目文件夹 `quant_project`，依次执行下面三行：
 
 ```bash
@@ -29,14 +29,14 @@ git branch -M main
 git push -u origin main
 ```
 
-> 把第一行里的 `你的用户名` 换成你自己的 GitHub 用户名。
+> 把第一行里的 `你的用户名` 换成你自己的 GitHub 用户名。  
 > 如果弹出登录窗口，用浏览器登录 GitHub 授权即可。
 
 推送成功后刷新仓库页面，就能看到全部文件、README 和 10 次提交记录了。
 
 ## 第 4 步：把仓库地址发给组长
 
-组长要在 **12 月 1 日前**把这个地址发到 linzihao@scnu.edu.cn，邮件格式：
+组长要在 **12 月 1 日前**把这个地址发到 <linzihao@scnu.edu.cn>，邮件格式：
 
 ```
 收件人：linzihao@scnu.edu.cn
@@ -45,11 +45,28 @@ git push -u origin main
 附件：  项目技术报告
 ```
 
+## 第 5 步：确认仓库可用（自查）
+
+> **说明**：我无法直接访问你的 GitHub 账号，所以在你把地址发我之前，**我无法确认仓库是否可用**。
+> 下面这套自查步骤能让你自己确认——把地址发我后，我也可以帮你打开核对。
+
+推完后按下面 5 条检查，全过才算可用：
+
+1. 浏览器打开 `https://github.com/你的用户名/quant-hs300-dma-tf`
+2. 首页能看到 README.md 的渲染内容（项目标题、指标表、净值图）
+3. 文件列表里有 `src/`、`data/`、`outputs/`、`main.py`、`rebuild_from_raw.py`
+4. 点 `Commits`，能看到 **11 次**提交记录
+5. 点开任意一个 `.py` 文件，内容正常显示（不是空的）
+
+**如果打不开（404）**：确认建仓库时选的是 Public；确认 URL 里的用户名拼写正确；确认执行了 `git push -u origin main`。
+
+**如果页面是空的**：本地跑 `git status` 确认没有未提交文件，然后重新 `git push`。
+
 ## 常见问题
 
-- **push 时提示认证失败**：GitHub 现在不支持密码，要用 Personal Access Token。
-  在 GitHub → Settings → Developer settings → Personal access tokens → Tokens(classic)
+- **push 时提示认证失败**：GitHub 现在不支持密码，要用 Personal Access Token。  
+  在 GitHub → Settings → Developer settings → Personal access tokens → Tokens(classic)  
   生成一个新的，勾选 `repo` 权限，把 token 当密码用。
-- **推送后发现文件不对**：在本地改好后执行
+- **推送后发现文件不对**：在本地改好后执行  
   `git add .` 然后 `git commit -m "说明"` 再 `git push`，就能更新。
 - **不知道自己有没有 git**：我已经确认你电脑上有 git（版本 2.55）。
