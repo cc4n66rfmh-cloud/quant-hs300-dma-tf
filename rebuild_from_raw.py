@@ -19,7 +19,7 @@ import sys
 
 import pandas as pd
 
-from src.data_fetch import fetch_etf_daily, save_raw, RAW_PATH
+from src.data_collection import load_or_fetch
 from src.strategy import generate_signals, DEFAULT_CONFIG
 from src.backtest import BacktestEngine
 from src.analysis import compute_metrics
@@ -40,14 +40,13 @@ def main() -> int:
     print("  全链路复现：原始行情 → 信号 → 回测 → 指标 → 出图")
     print("=" * 72)
 
-    # 1. 数据接入
-    print("\n[1/5] 数据接入：从 akshare 下载 510300 原始日线 ...")
+    # 1. 数据接入（本地优先，缺失时从 akshare 下载）
+    print("\n[1/5] 数据接入：读取 510300 原始日线（本地缓存优先）...")
     try:
-        raw = fetch_etf_daily()
+        raw = load_or_fetch()
     except Exception as exc:  # noqa: BLE001
         print(f"❌ 数据接入失败：{exc}")
         return 1
-    save_raw(raw)
     print(f"      {len(raw)} 行，{raw['date'].min().date()} ~ {raw['date'].max().date()}")
 
     # 2~3. 策略信号 + 回测

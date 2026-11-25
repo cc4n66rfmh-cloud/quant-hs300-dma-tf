@@ -1,18 +1,16 @@
 """
-数据接入模块（组员5 补强 · 数据接入链路的完整证明）
+数据获取与处理模块（组员2 交付）
 =====================================================
-作用：把老师要求的"数据接入"模块做实——不只是读现成 CSV，
-      而是从免费数据源 akshare 现场下载沪深300ETF 原始行情，
-      清洗、重命名、落盘，形成可从零复现的完整链路。
-
-数据源：akshare 的 fund_etf_hist_em（东方财富，免费，无需注册/token）
+分工：数据获取与处理
+数据源：akshare（东方财富）免费接口 fund_etf_hist_em，无需注册/token
 标的：  沪深300ETF（510300）
-区间：  2018-01-01 ~ 2024-12-31（与回测结果 equity_curve.csv 对齐）
-复权：  前复权 qfq，避免除权跳空造成的假信号
+区间：  2018-01-01 ~ 2024-12-31（1699 个交易日）
+复权：  前复权 qfq，避免除权跳空造成假信号
 
-用法：
-    pip install akshare
-    python src/data_fetch.py
+流程：下载 → 清洗（去无效价/去重/转数值）→ 落盘到 data/raw/
+
+运行：
+    python src/data_collection/fetch_etf.py
 
 输出：
     data/raw/etf_510300_data.csv
@@ -25,7 +23,7 @@ import sys
 
 import pandas as pd
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 RAW_DIR = os.path.join(BASE_DIR, "data", "raw")
 RAW_PATH = os.path.join(RAW_DIR, "etf_510300_data.csv")
 
@@ -65,7 +63,6 @@ def fetch_etf_daily(symbol: str = "510300", start: str = START_DATE,
         raise RuntimeError(f"akshare 未返回 {symbol} 的数据，请检查代码或网络")
 
     df = raw.rename(columns=COL_MAP).copy()
-    # 保底：若列名已是英文则直接用
     for col in COL_MAP.values():
         if col not in df.columns:
             raise RuntimeError(f"下载数据缺少必要列：{col}，实际列：{list(df.columns)}")
@@ -90,6 +87,21 @@ def save_raw(df: pd.DataFrame, path: str = RAW_PATH) -> str:
     return path
 
 
+def load_or_fetch(path: str = RAW_PATH) -> pd.DataFrame:
+    """本地优先：已有落盘数据则直接读取，缺失时才联网下载。
+    这样答辩现场即使断网或接口限流，也能从原始数据完整重跑。"""
+    if os.path.exists(path):
+        df = pd.read_csv(path)
+        df["date"] = pd.to_datetime(df["date"])
+        df = df.sort_values("date").reset_index(drop=True)
+        print(f"      读取本地原始数据：{path}（{len(df)} 行）")
+        return df[KEEP_COLS]
+    print("      本地无缓存，联网下载 ...")
+    df = fetch_etf_daily()
+    save_raw(df, path)
+    return df
+
+
 def main() -> int:
     print(">>> 1. 从 akshare（东方财富）下载沪深300ETF(510300) 日线 ...")
     try:
@@ -103,7 +115,7 @@ def main() -> int:
     path = save_raw(df)
     print(f">>> 3. 原始数据已落盘：{path}")
     print(df.head(3).to_string(index=False))
-    print("\n数据接入完成，可运行 python src/rebuild_from_raw.py 从零重跑回测。")
+    print("\n数据获取完成，可运行 python rebuild_from_raw.py 从零重跑回测。")
     return 0
 
 

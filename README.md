@@ -18,21 +18,16 @@ quant_project/
 ├── rebuild_from_raw.py     # 全链路复现入口：从原始行情一键重跑（答辩演示用）
 ├── requirements.txt        # 依赖清单
 ├── data/
-│   ├── raw/                # akshare 下载的原始行情（运行时生成）
+│   ├── raw/                # akshare 下载的原始行情
 │   │   └── etf_510300_data.csv
-│   ├── processed/          # 回测结果数据
-│   │   ├── equity_curve.csv    # 净值曲线（策略 + 基准）
-│   │   └── trade_log.csv       # 成交流水（58 笔）
-│   └── sample/             # 成分股数据样例（3 个小文件，约 500KB）
-│       ├── benchmark_hs300.csv
-│       ├── 600519.csv
-│       └── 000858.csv
+│   └── processed/          # 回测结果数据
+│       ├── equity_curve.csv    # 净值曲线（策略 + 基准）
+│       └── trade_log.csv       # 成交流水（58 笔）
 ├── src/
-│   ├── data_fetch.py       # 数据接入：akshare 下载 → 清洗 → 落盘（组员5）
+│   ├── data_collection/    # 数据获取与处理（组员2）
+│   │   ├── __init__.py
+│   │   └── fetch_etf.py        # akshare 下载 510300 → 清洗 → 落盘
 │   ├── data.py             # 回测结果加载（组员5 整合）
-│   ├── data_collection/    # 数据采集与清洗（组员2）
-│   │   ├── download_hs300.py
-│   │   └── clean_hs300.py
 │   ├── strategy.py         # DMA-TF 策略信号（组员1）
 │   ├── backtest.py         # 事件驱动回测引擎（组员3）
 │   ├── analysis.py         # 指标计算（组员4）
@@ -49,12 +44,8 @@ quant_project/
 
 策略回测数据通过 **akshare（东方财富）** 免费接口 `fund_etf_hist_em` 获取，
 标的为**沪深300ETF（510300）**前复权日线，区间 2018 年 1 月至 2024 年末（1699 个交易日）。
-数据接入脚本 `src/data_fetch.py` 完成"下载 → 清洗 → 落盘"全流程，无需注册或 token。
-基准设定为"买入并持有沪深300ETF"，与策略在同一标的、同一区间对比，保证可比性。
-
-作为数据探索，另用 **baostock** 获取了沪深300指数及其成分股 2018—2023 年日线数据，
-脚本见 `src/data_collection/`，样例见 `data/sample/`（全量约 84MB，因体积较大未入库），
-用于后续多因子选股扩展研究。
+数据接入脚本 `src/data_collection/fetch_etf.py`（组员2）完成"下载 → 清洗 → 落盘"全流程，
+无需注册或 token。基准设定为"买入并持有沪深300ETF"，与策略在同一标的、同一区间对比，保证可比性。
 
 ## 四、安装与运行
 
@@ -65,7 +56,8 @@ python rebuild_from_raw.py     # 全链路复现：现场下载 → 信号 → �
 ```
 
 两条命令都会打印指标对照表并在 `outputs/` 生成图表。其中 `rebuild_from_raw.py`
-从 akshare 现场下载原始行情完整重跑，产出的四项指标与已存结果**完全一致**，
+从原始行情完整重跑（本地已有 `data/raw/etf_510300_data.csv` 时直接读取，
+缺失时自动从 akshare 下载，断网/限流也能演示），产出的四项指标与已存结果**完全一致**，
 是"系统拥有真实可运行内核（非静态展示页）"的直接证据——答辩时建议演示这一条。
 
 输出文件：
@@ -95,7 +87,7 @@ python rebuild_from_raw.py     # 全链路复现：现场下载 → 信号 → �
 | 组员 | 负责模块 | 交付物 |
 | --- | --- | --- |
 | 组员1 | 量化策略设计 | 策略设计文档、DMA-TF 信号代码 |
-| 组员2 | 数据获取与处理 | baostock 历史数据集、下载与清洗代码（`src/data_collection/`） |
+| 组员2 | 数据获取与处理 | akshare 沪深300ETF 历史数据集、下载与清洗代码（`src/data_collection/fetch_etf.py`） |
 | 组员3 | 回测引擎开发 | 事件驱动回测引擎、回测结果数据 |
 | 组员4 | 回测结果分析 | 指标表、净值曲线、结果分析 |
 | 组员5 | 系统展示与工程实现 | 展示模块、README、GitHub 仓库、报告与 PPT |
