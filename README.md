@@ -17,7 +17,7 @@
 ```
 quant_project/
 ├── main.py                 # 日常展示入口：读取已生成结果，秒出
-├── rebuild_from_raw.py     # 全链路复现入口：从原始行情一键重跑（答辩演示用）
+├── 全链路复现代码.py        # 全链路复现入口：从原始行情一键重跑（答辩演示用）
 ├── 一键运行_日常展示.bat    # Windows 双击运行（推荐）
 ├── 一键运行_全链路复现.bat  # Windows 双击运行（答辩演示）
 ├── requirements.txt        # 依赖清单
@@ -62,14 +62,14 @@ bat 文件内已写死 Python 3.12 的绝对路径，不受系统 PATH 影响。
 ```bash
 pip install -r requirements.txt
 python main.py                 # 日常展示：读取已生成结果，秒出
-python rebuild_from_raw.py     # 全链路复现：现场下载 → 信号 → 回测 → 指标 → 出图
+python 全链路复现代码.py         # 全链路复现：现场下载 → 信号 → 回测 → 指标 → 出图
 ```
 
 > Windows 注意：如果输入 `python` 没反应、也不报错，说明 `python` 指向了微软商店占位符
 > （`AppData\Local\Microsoft\WindowsApps\python.exe`）。请改用双击 bat，
 > 或用完整路径 `C:\Users\HUAWEI\AppData\Local\Programs\Python\Python312\python.exe main.py`。
 
-两条命令都会打印指标对照表并在 `outputs/` 生成图表。其中 `rebuild_from_raw.py`
+两条命令都会打印指标对照表并在 `outputs/` 生成图表。其中 `全链路复现代码.py`
 从原始行情完整重跑（本地已有 `data/raw/etf_510300_data.csv` 时直接读取，
 缺失时自动从 akshare 下载，断网/限流也能演示），产出的四项指标与已存结果**完全一致**，
 是"系统拥有真实可运行内核（非静态展示页）"的直接证据——答辩时建议演示这一条。

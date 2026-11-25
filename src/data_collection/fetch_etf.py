@@ -115,7 +115,7 @@ def main() -> int:
     path = save_raw(df)
     print(f">>> 3. 原始数据已落盘：{path}")
     print(df.head(3).to_string(index=False))
-    print("\n数据获取完成，可运行 python rebuild_from_raw.py 从零重跑回测。")
+    print("\n数据获取完成，可运行 python 全链路复现代码.py 从零重跑回测。")
     return 0
 
 

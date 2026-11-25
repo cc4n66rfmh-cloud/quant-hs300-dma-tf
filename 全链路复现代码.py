@@ -6,11 +6,11 @@
 
 与 main.py 的区别：
   - main.py：读取组员3已生成的回测结果（日常展示用，秒出）
-  - rebuild_from_raw.py：从 akshare 原始行情开始重跑（答辩证明"真实内核"用）
+  - 全链路复现代码.py：从 akshare 原始行情开始重跑（答辩证明"真实内核"用）
 
 运行：
     pip install -r requirements.txt
-    python rebuild_from_raw.py
+    python 全链路复现代码.py
 """
 
 from __future__ import annotations
