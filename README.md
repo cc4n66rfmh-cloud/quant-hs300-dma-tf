@@ -16,6 +16,8 @@
 quant_project/
 ├── main.py                 # 日常展示入口：读取已生成结果，秒出
 ├── rebuild_from_raw.py     # 全链路复现入口：从原始行情一键重跑（答辩演示用）
+├── 一键运行_日常展示.bat    # Windows 双击运行（推荐）
+├── 一键运行_全链路复现.bat  # Windows 双击运行（答辩演示）
 ├── requirements.txt        # 依赖清单
 ├── data/
 │   ├── raw/                # akshare 下载的原始行情
@@ -49,11 +51,24 @@ quant_project/
 
 ## 四、安装与运行
 
+**方式一（推荐，双击即可）**：直接双击项目根目录下的 bat 文件：
+
+- `一键运行_日常展示.bat` —— 读取已生成的回测结果，秒出指标和净值图
+- `一键运行_全链路复现.bat` —— 从原始行情重跑完整链路（答辩演示用）
+
+bat 文件内已写死 Python 3.12 的绝对路径，不受系统 PATH 影响。
+
+**方式二（命令行）**：
+
 ```bash
 pip install -r requirements.txt
 python main.py                 # 日常展示：读取已生成结果，秒出
 python rebuild_from_raw.py     # 全链路复现：现场下载 → 信号 → 回测 → 指标 → 出图
 ```
+
+> Windows 注意：如果输入 `python` 没反应、也不报错，说明 `python` 指向了微软商店占位符
+> （`AppData\Local\Microsoft\WindowsApps\python.exe`）。请改用双击 bat，
+> 或用完整路径 `C:\Users\HUAWEI\AppData\Local\Programs\Python\Python312\python.exe main.py`。
 
 两条命令都会打印指标对照表并在 `outputs/` 生成图表。其中 `rebuild_from_raw.py`
 从原始行情完整重跑（本地已有 `data/raw/etf_510300_data.csv` 时直接读取，
